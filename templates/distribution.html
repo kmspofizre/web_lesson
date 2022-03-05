@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2 style="text-align: center; margin-bottom: 20px;">Размещение по каютам</h2>
+  {% for elem in astr_list %}
+    <h5 style="padding-left: 150px;">{{ elem }} - Каюта № {{ loop.index }} {% if loop.first %} - капитан корабля. {% endif %}</h5>
+  {% endfor %}
+{% endblock %}

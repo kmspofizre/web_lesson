@@ -19,6 +19,7 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 sp = ['инженер-исследователь', 'пилот', 'строитель']
+ek = ['Ридли Скотт', 'Энди Уир', 'Марк Уотни']
 anc = {
     'Фамилия': 'Watny',
     'Имя': 'Mark',
@@ -65,6 +66,11 @@ def login():
     if form.validate_on_submit():
         return redirect('/success')
     return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/distribution')
+def distribution():
+    return render_template('distribution.html', astr_list=ek)
 
 
 if __name__ == '__main__':
