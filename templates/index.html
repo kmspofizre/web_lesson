@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+ {% if "инженер" in prof or "строитель" in prof %}
+        <h2 style="display: flexbox; align-self: center;">Инженерные тренажеры</h2>
+        <img {{ spaceship_2 }}>
+ {% else %}
+        <h2 style="display: flexbox; align-self: center;">Научные симуляторы</h2>
+        <img {{ spaceship_1 }}>
+ {% endif %}
+{% endblock %}
