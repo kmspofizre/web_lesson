@@ -5,6 +5,15 @@ app = Flask(__name__)
 
 
 sp = ['инженер-исследователь', 'пилот', 'строитель']
+anc = {
+    'Фамилия': 'Watny',
+    'Имя': 'Mark',
+    'Образование': 'Выше среднего',
+    'Профессия': 'штурман марсохода',
+    'Пол': 'male',
+    'Мотивация': 'Всегда мечтал застрять на Марсе!',
+    'Готовы остаться на Марсе?': True
+}
 
 
 @app.route('/')
@@ -12,6 +21,7 @@ sp = ['инженер-исследователь', 'пилот', 'строите
 def index():
     param = {}
     param['title'] = 'Домашняя страница'
+    param['style'] = f"rel=stylesheet href={url_for('static', filename='css/style.css')}"
     return render_template('base.html', **param)
 
 
@@ -27,6 +37,12 @@ def training(prof):
 @app.route('/list_prof/<list_type>')
 def list_maker(list_type):
     return render_template('index.html', profs=sp, lt=list_type)
+
+
+@app.route('/answer')
+@app.route('/auto_answer')
+def reminder():
+    return render_template('index.html', anc=anc)
 
 
 if __name__ == '__main__':

@@ -1,17 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Список профессий</h2>
- {% if lt == "ol" %}
-        <ol>
-            {% for item in profs %}
-            <li>{{ item }}</li>
-            {% endfor %}
-        </ol>
- {% else %}
-        <ul>
-            {% for item in profs %}
-            <li>{{ item }}</li>
-            {% endfor %}
-        </ol>
- {% endif %}
+ {% for item in anc %}
+       <h3>{{item}}:{{anc[item]}}</h3>
+ {% endfor %}
 {% endblock %}
