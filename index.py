@@ -1,7 +1,21 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired
+
+
+class LoginForm(FlaskForm):
+    cap_id = StringField('id капитана', validators=[DataRequired()])
+    cap_password = PasswordField('Пароль капитана', validators=[DataRequired()])
+    astr_id = StringField('id астронавта', validators=[DataRequired()])
+    astr_password = PasswordField('Пароль астронавта', validators=[DataRequired()])
+    submit = SubmitField('Доступ')
 
 
 app = Flask(__name__)
+
+
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 sp = ['инженер-исследователь', 'пилот', 'строитель']
@@ -43,6 +57,14 @@ def list_maker(list_type):
 @app.route('/auto_answer')
 def reminder():
     return render_template('index.html', anc=anc)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('login.html', title='Авторизация', form=form)
 
 
 if __name__ == '__main__':
