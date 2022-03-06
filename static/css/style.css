@@ -26,3 +26,25 @@ body{
     display: flex;
     align-items: flex-end;
 }
+
+
+.design{
+    padding-left: 120px;
+    padding-right: 120px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+
+.inside{
+    text-align: center;
+    flex-basis: 50%;
+}
+
+
+span.inside{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}

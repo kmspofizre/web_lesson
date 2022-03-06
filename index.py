@@ -73,5 +73,22 @@ def distribution():
     return render_template('distribution.html', astr_list=ek)
 
 
+@app.route('/table/<sex>/<int:age>')
+def table(sex, age):
+    if sex == 'male' and age >= 21:
+        color = f'style=background-color:blue;'
+        pic_path = f'src={url_for("static", filename="img/inop_not_lt.jpg")}'
+    elif sex == 'male':
+        color = f'style=background-color:#87cefa;'
+        pic_path = f'src={url_for("static", filename="img/inop_lt.png")}'
+    elif sex == 'female' and age >= 21:
+        color = f'style=background-color:purple;'
+        pic_path = f'src={url_for("static", filename="img/inop_not_lt.jpg")}'
+    else:
+        color = f'style=background-color:pink;'
+        pic_path = f'src={url_for("static", filename="img/inop_lt.png")}'
+    return render_template('table.html', color=color, pic_path=pic_path)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
