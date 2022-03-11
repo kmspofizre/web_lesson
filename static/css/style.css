@@ -1,0 +1,55 @@
+h4{
+    color: grey;
+    padding-left: 20px;
+}
+h3{
+    padding-left: 40px;
+}
+body{
+    font-family: sans-serif;
+}
+.astr-form{
+    padding-top: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.form-sp{
+    font-size: 32px;
+    padding-bottom: 0;
+    padding-left: 15px;
+    text-align: end;
+    display: inline;
+}
+
+
+.con-con{
+    display: flex;
+    align-items: flex-end;
+}
+
+
+.design{
+    padding-left: 120px;
+    padding-right: 120px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+
+.inside{
+    text-align: center;
+    flex-basis: 50%;
+}
+
+
+span.inside{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.for-table{
+    padding-left: 70px;
+    padding-right: 70px;
+    margin-bottom: 40px;
+}

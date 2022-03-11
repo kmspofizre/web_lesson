@@ -5,50 +5,25 @@ from data.jobs import Jobs
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-db_session.global_init("db/mars_explorer.db")
+db_session.global_init(f"db/mars_explorer.db")
 db_sess = db_session.create_session()
+#n1 = len(max(db_sess.query(Jobs).all(),
+        #     key=lambda x: len(x.collaboration.split(', '))).collaboration.split(', '))
+#all_leaders = map(lambda x: x.team_leader,
+        #          filter(lambda x: len(x.collaboration.split(', ')) == n1,
+                 #        db_sess.query(Jobs).all()))
+#print('\n'.join(map(lambda x: f'{x.name} {x.surname}',
+        #            db_sess.query(User).filter(User.id.in_(all_leaders)))))
 
 
-captain = User()
-captain.surname = 'Scott'
-captain.name = 'Ridley'
-captain.age = 21
-captain.position = 'captain'
-captain.speciality = 'researhc engineer'
-captain.address = 'module_1'
-captain.email = 'scott_chief@mars.org'
-
-lead_scientist = User()
-lead_scientist.surname = 'Phineas'
-lead_scientist.name = 'Welles'
-lead_scientist.age = 47
-lead_scientist.position = 'deputy captain'
-lead_scientist.speciality = 'lead_scientist'
-lead_scientist.address = 'module_2'
-lead_scientist.email = 'Phells@mars.org'
-
-security = User()
-security.surname = 'Isaac'
-security.name = 'Clark'
-security.age = 49
-security.position = 'Sergeant'
-security.speciality = 'security'
-security.address = 'module_3'
-security.email = 'DeadSpace@mars.org'
-
-motivator = User()
-motivator.name = 'Tyler'
-motivator.surname = 'Durden'
-motivator.age = 34
-motivator.position = 'Lead Motivator'
-motivator.speciality = 'Self destruction'
-motivator.address = 'module_8'
-motivator.email = 'best_soap@mars.org'
-db_sess.add(captain)
-db_sess.add(lead_scientist)
-db_sess.add(security)
-db_sess.add(motivator)
-db_sess.commit()
+@app.route('/')
+@app.route('/index')
+def job_list():
+    jobs_list = list(db_sess.query(Jobs).all())
+    leads = list(map(lambda x: (x.name, x.surname),
+                     map(lambda x: db_sess.query(User).filter(User.id == x.team_leader).first(),
+                     jobs_list)))
+    return render_template('jobs.html', jobs_list=jobs_list, leads=leads)
 
 
 def main():
