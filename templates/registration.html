@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="for-form">
+    <h2>Register form</h2>
+    <form action="" method="post" novalidate>
+        {{ astronaut_form.hidden_tag() }}
+        <p>
+            {{ astronaut_form.astronaut_login.label }}<br>
+            {{ astronaut_form.astronaut_login(class="form-control") }}
+            {% for error in astronaut_form.astronaut_login.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_password.label }}<br>
+            {{ astronaut_form.astronaut_password(class="form-control", type="password") }}
+            {% for error in astronaut_form.astronaut_password.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.repeat_password.label }}<br>
+            {{ astronaut_form.repeat_password(class="form-control", type="password") }}
+            {% for error in astronaut_form.repeat_password.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_surname.label }}<br>
+            {{ astronaut_form.astronaut_surname(class="form-control") }}
+            {% for error in astronaut_form.astronaut_surname.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_name.label }}<br>
+            {{ astronaut_form.astronaut_name(class="form-control") }}
+            {% for error in astronaut_form.astronaut_name.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_age.label }}<br>
+            {{ astronaut_form.astronaut_age(class="form-control") }}
+            {% for error in astronaut_form.astronaut_age.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_position.label }}<br>
+            {{ astronaut_form.astronaut_position(class="form-control") }}
+            {% for error in astronaut_form.astronaut_position.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_speciality.label }}<br>
+            {{ astronaut_form.astronaut_speciality(class="form-control") }}
+            {% for error in astronaut_form.astronaut_speciality.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ astronaut_form.astronaut_address.label }}<br>
+            {{ astronaut_form.astronaut_address(class="form-control") }}
+            {% for error in astronaut_form.astronaut_address.errors %}
+              <div class="alert alert-danger" role="alert">
+                  {{ error }}
+              </div>
+            {% endfor %}
+        </p>
+        <p>{{ astronaut_form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>
+  </div>
+{% endblock %}
