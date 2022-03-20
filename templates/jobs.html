@@ -18,7 +18,7 @@
                 <td class="table-light">{{ elem.job }}</td><td class="table-light">{{ leads[a][0] }} {{ leads[a][1] }}</td>
                 <td class="table-light">{{elem.work_size}}</td>
                 <td class="table-light">{{ elem.collaborators }}</td>
-                {% if elem.is_finished %}
+                {% if not elem.is_finished %}
                   <td class="table-danger">
                     Is not finished
                   </td>

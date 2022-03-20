@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <div class="for-login">
+         <h2>Sign in</h2>
+         <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.astronaut_login.label }}<br>
+                {{ form.astronaut_login(class="form-control", type="email") }}<br>
+                {% for error in form.astronaut_login.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.astronaut_password.label }}<br>
+                {{ form.astronaut_password(class="form-control", type="password") }}
+                {% for error in form.astronaut_password.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <div>{{ message }}</div>
+         </form>
+     </div>
+{% endblock %}
