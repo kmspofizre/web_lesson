@@ -49,9 +49,10 @@ span.inside{
     padding-top: 5px;
 }
 .for-table{
+    margin-top: 20px;
     padding-left: 70px;
     padding-right: 70px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 
@@ -76,4 +77,17 @@ span.inside{
     padding-left: 70px;
     padding-right: 70px;
     margin-bottom: 40px;
+}
+
+
+.navigation{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+    padding-top: 5px;
+}
+
+
+.buttons-ins{
+    margin-top: 10px;
 }

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h2 style="text-align: center;">Works log</h2>
+  <a style="padding-left: 70px;" href="/add_job"><button type="button" class="btn btn-secondary">Add Job</button></a>
   {% for elem in jobs_list %}
     {% set a = loop.index0 %}
     <div class="for-table">
@@ -30,6 +31,12 @@
             </tr>
         </tbody>
       </table>
+      {% if current_user.id == 1 or current_user.id == elem.team_leader %}
+          <div class="buttons-ins">
+              <a href="/edit_job/{{ elem.id }}"><button type="button" class="btn btn-warning">Edit</button></a>
+              <a style="margin-left: 15px;" href="/delete_job/{{ elem.id }}"><button type="button" class="btn btn-danger">Delete</button></a>
+          </div>
+      {% endif %}
     </div>
   {% endfor %}
 {% endblock %}

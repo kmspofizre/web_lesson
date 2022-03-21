@@ -1,11 +1,11 @@
 from flask import Flask, render_template, redirect,\
-    request, make_response, session
+    request, make_response, session, abort
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
 from forms.user import Astronaut
 import datetime
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms.user_login import AstronautLog
 from forms.add_job import JobForm
 
@@ -89,7 +89,50 @@ def add_job():
         db_sess.add(job)
         db_sess.commit()
         return redirect('/')
-    return render_template('add_job.html', title='Добавление работы', form=form)
+    return render_template('add_job.html', title='Добавление работы', form=form, header='Add Job')
+
+
+@app.route('/edit_job/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_job(id):
+    form = JobForm()
+    if request.method == 'GET':
+        chosen_job = db_sess.query(Jobs).filter(Jobs.id == id,
+                                                (Jobs.team_leader == current_user.id | current_user.id == 1)).first()
+        if chosen_job:
+            form.job.data = chosen_job.job
+            form.collaborators.data = chosen_job.collaborators
+            form.work_size.data = chosen_job.work_size
+            form.team_leader.data = chosen_job.team_leader
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        chosen_job = db_sess.query(Jobs).filter(Jobs.id == id,
+                                                (Jobs.team_leader == current_user.id | current_user.id == 1)).first()
+        if chosen_job:
+            chosen_job.job = form.job.data
+            chosen_job.collaborators = form.collaborators.data
+            chosen_job.work_size = form.work_size.data
+            chosen_job.is_finished = form.is_finished.data
+            chosen_job.team_leader = form.team_leader.data
+            db_sess.commit()
+            return redirect('/')
+        else:
+            abort(404)
+    return render_template('add_job.html', title='Редактирование работы', form=form, header='Edit Job')
+
+
+@app.route('/delete_job/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_job(id):
+    chosen_job = db_sess.query(Jobs).filter(Jobs.id == id,
+                                            (Jobs.team_leader == current_user.id | current_user.id == 1)).first()
+    if chosen_job:
+        db_sess.delete(chosen_job)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
 
 
 @app.route('/success')
@@ -108,6 +151,12 @@ def load_user(user_id):
 def logout():
     logout_user()
     return redirect("/")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
 
 
 def main():
