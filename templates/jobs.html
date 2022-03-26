@@ -11,7 +11,8 @@
           <tr class="table-light">
               <th class="table">Title or activity</th><th class="table-light">Team leader</th>
               <th class="table-light">Duration</th>
-              <th class="table-light">List of collaborators</th><th class="table-light">Is finished</th>
+              <th class="table-light">List of collaborators</th><th class="table-light">Hazard category</th>
+              <th class="table-light">Is finished</th>
           </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
                 <td class="table-light">{{ elem.job }}</td><td class="table-light">{{ leads[a][0] }} {{ leads[a][1] }}</td>
                 <td class="table-light">{{elem.work_size}}</td>
                 <td class="table-light">{{ elem.collaborators }}</td>
+                <td class="table-light">{{ categories[a] }}</td>
                 {% if not elem.is_finished %}
                   <td class="table-danger">
                     Is not finished

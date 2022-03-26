@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, \
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
+from data.job_categs import Category, association_table
 from data.departments import Departments
 from forms.user import Astronaut
 import datetime
@@ -29,7 +30,10 @@ def job_list():
     leads = list(map(lambda x: (x.name, x.surname),
                      map(lambda x: db_sess.query(User).filter(User.id == x.team_leader).first(),
                          jobs_list)))
-    return render_template('jobs.html', jobs_list=jobs_list, leads=leads)
+    categories = list(map(lambda xy: ', '.join(xy), map(lambda x: [str(y.id) for y in x],
+                                                        map(lambda z: z.categories, jobs_list))))
+    print(categories)
+    return render_template('jobs.html', jobs_list=jobs_list, leads=leads, categories=categories)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -181,8 +185,8 @@ def add_dept():
             title=form.title.data
         )
         print(form.email.data,
-            form.chief.data,
-            form.members.data, form.title.data)
+              form.chief.data,
+              form.members.data, form.title.data)
         db_sess.add(new_dept)
         db_sess.commit()
         return redirect('/')
@@ -210,7 +214,7 @@ def edit_dept(id):
     if request.method == 'GET':
         chosen_dept = db_sess.query(Departments).filter(Departments.id == id,
                                                         (
-                                Departments.chief == current_user.id | current_user.id == 1)).first()
+                                                                Departments.chief == current_user.id | current_user.id == 1)).first()
         if chosen_dept:
             form.chief.data = chosen_dept.chief
             form.members.data = chosen_dept.members
@@ -221,7 +225,7 @@ def edit_dept(id):
     if form.validate_on_submit():
         chosen_dept = db_sess.query(Departments).filter(Departments.id == id,
                                                         (
-                                Departments.chief == current_user.id | current_user.id == 1)).first()
+                                                                Departments.chief == current_user.id | current_user.id == 1)).first()
         if chosen_dept:
             chosen_dept.chief = form.chief.data
             chosen_dept.members = form.members.data
