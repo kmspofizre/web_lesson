@@ -1,14 +1,15 @@
-from flask import Flask, render_template, redirect,\
+from flask import Flask, render_template, redirect, \
     request, make_response, session, abort
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
+from data.departments import Departments
 from forms.user import Astronaut
 import datetime
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms.user_login import AstronautLog
 from forms.add_job import JobForm
-
+from forms.add_dept import DeptForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -27,7 +28,7 @@ def job_list():
     jobs_list = list(db_sess.query(Jobs).all())
     leads = list(map(lambda x: (x.name, x.surname),
                      map(lambda x: db_sess.query(User).filter(User.id == x.team_leader).first(),
-                     jobs_list)))
+                         jobs_list)))
     return render_template('jobs.html', jobs_list=jobs_list, leads=leads)
 
 
@@ -157,6 +158,80 @@ def logout():
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
+
+@app.route('/departments')
+def departments():
+    depts = db_sess.query(Departments).all()
+    leads = list(map(lambda x: (x.name, x.surname),
+                     map(lambda x: db_sess.query(User).filter(User.id == x.chief).first(),
+                         depts)))
+    return render_template('departments.html', depts=depts, leads=leads)
+
+
+@app.route('/add_dept', methods=['GET', 'POST'])
+@login_required
+def add_dept():
+    form = DeptForm()
+    if form.validate_on_submit():
+        new_dept = Departments(
+            email=form.email.data,
+            chief=form.chief.data,
+            members=form.members.data,
+            title=form.title.data
+        )
+        print(form.email.data,
+            form.chief.data,
+            form.members.data, form.title.data)
+        db_sess.add(new_dept)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('add_dept.html', form=form, header='Add department')
+
+
+@app.route('/delete_dept/<int:id>')
+@login_required
+def delete_dept(id):
+    chosen_dept = db_sess.query(Departments).filter(Departments.id == id,
+                                                    (
+                                                            Departments.chief == current_user.id | current_user.id == 1)).first()
+    if chosen_dept:
+        db_sess.delete(chosen_dept)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
+@app.route('/edit_dept/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_dept(id):
+    form = DeptForm()
+    if request.method == 'GET':
+        chosen_dept = db_sess.query(Departments).filter(Departments.id == id,
+                                                        (
+                                Departments.chief == current_user.id | current_user.id == 1)).first()
+        if chosen_dept:
+            form.chief.data = chosen_dept.chief
+            form.members.data = chosen_dept.members
+            form.title.data = chosen_dept.title
+            form.email.data = chosen_dept.email
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        chosen_dept = db_sess.query(Departments).filter(Departments.id == id,
+                                                        (
+                                Departments.chief == current_user.id | current_user.id == 1)).first()
+        if chosen_dept:
+            chosen_dept.chief = form.chief.data
+            chosen_dept.members = form.members.data
+            chosen_dept.title = form.title.data
+            chosen_dept.email = form.email.data
+            db_sess.commit()
+            return redirect('/')
+        else:
+            abort(404)
+    return render_template('add_dept.html', title='Редактирование департамента', form=form, header='Edit Department')
 
 
 def main():

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 style="text-align: center; margin-bottom: 20px;">List of Departments</h2>
+    <div class="depts">
+        <a href="/index"><button type="button" class="btn btn-secondary" style="margin-right: 15px;">Back to Jobs</button></a>
+        <a href="/add_dept"><button type="button" class="btn btn-secondary">Add a Department</button></a>
+        {% for dept in depts %}
+            {% set a = loop.index0 %}
+            <h3 style="margin-top: 35px; padding-left: 0;">Department # {{ loop.index }}</h3>
+            <table class="table">
+                <thead>
+                    <tr class="table-light">
+                        <th class="table">Title of department</th>
+                        <th class="table-light">Chief</th>
+                        <th class="table-light">Members</th>
+                        <th class="table-light">Department Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-light">
+                        <td class="table-light">{{ dept.title }}</td>
+                        <td class="table-light">{{ leads[a][0] }} {{ leads[a][1] }}</td>
+                        <td class="table-light">{{ dept.members }}</td>
+                        <td class="table-light">{{ dept.email }}</td>
+                    </tr>  
+                </tbody>
+            </table>
+            {% if current_user.id == dept.chief %}
+                <div style="margin-top: 15px; margin-bottom: 5px;">
+                    <a href="/edit_dept/{{ dept.id }}"><button type="button" class="btn btn-warning">Edit Department</button></a>
+                    <a href="/delete_dept/{{ dept.id }}"><button type="button" class="btn btn-danger">Delete Department</button></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
