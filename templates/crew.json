@@ -1,0 +1,22 @@
+{
+  "crew": [
+    {
+      "name": "Ридли",
+      "surname": "Скотт",
+      "pic": "img/inop_not_lt.jpg",
+      "specialities": ["штурман марсохода", "главный за еду"]
+    },
+    {
+      "name": "Энди",
+      "surname": "Уир",
+      "pic": "img/inop_lt.png",
+      "specialities": ["специалист по радиационной защите", "астрогеолог"]
+    },
+    {
+      "name": "Марк",
+      "surname": "Уотни",
+      "pic": "img/inop_not_lt.jpg",
+      "specialities": ["главный инженер", "метеоролог"]
+    }
+  ]
+}

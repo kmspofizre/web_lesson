@@ -2,6 +2,8 @@ from flask import Flask, render_template, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
+import json
+import random
 
 
 class LoginForm(FlaskForm):
@@ -88,6 +90,17 @@ def table(sex, age):
         color = f'style=background-color:pink;'
         pic_path = f'src={url_for("static", filename="img/inop_lt.png")}'
     return render_template('table.html', color=color, pic_path=pic_path)
+
+
+@app.route('/member')
+def member():
+    with open('templates/crew.json', encoding='utf-8') as js_file:
+        d = json.load(js_file)
+        a = random.choice(d['crew'])
+        return render_template('member.html',
+                               member_name=' '.join([a['name'], a['surname']]),
+                               member_pic=f"src={url_for('static', filename=a['pic'])}",
+                               member_spec=' '.join(sorted(a['specialities'])))
 
 
 if __name__ == '__main__':
